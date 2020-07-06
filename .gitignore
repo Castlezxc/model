@@ -42,4 +42,4 @@ vignettes/*.pdf
 docs/
 
 # Images
-.jpeg
+*.jpeg
