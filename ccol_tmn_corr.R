@@ -1,7 +1,9 @@
 #install.packages("plyr")
 #install.packages("tsbox")
+#install.packages("ggpubr")
 library(tsbox)
 library(tidyverse)
+library(ggpubr)
 
 
 # Importing site mean monthly minimum temperature...
@@ -43,3 +45,12 @@ str(cru_ccol_tmn_df)
 corr_df <- full_join(cru_ccol_tmn_df, ccol_tmn_df, by = "time")
 str(corr_df)
 
+corr_clean_df <- na.omit(corr_df)
+colnames(corr_clean_df) <- c("time", "cru", "ccol")
+corr <- apply(corr_clean_df, 1, cor)
+cor.test(corr_clean_df$cru, corr_clean_df$ccol)
+
+ggscatter(corr_clean_df, x = "cru", y = "ccol", 
+          add = "reg.line", conf.int = TRUE, 
+          cor.coef = TRUE, cor.method = "pearson",
+          xlab = "cru", ylab = "ccol")
