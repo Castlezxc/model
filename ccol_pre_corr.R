@@ -10,8 +10,8 @@ library(reshape2)
 # Contains the same code as ccol_tmn_corr.R except without the str() functions and comments
 
 ccol_pre_csv <- read.csv("CAPE_COLUMBINE.totals.pre.csv", stringsAsFactors = FALSE)
-ccol_pre_csv <- ccol_pre_csv[2:nrow(ccol_pre_csv) - 1, 2]
-ccol_pre <- data.frame(ccol_pre_csv)
+ccol_pre_v <- ccol_pre_csv[2:nrow(ccol_pre_csv) - 1, 2]
+ccol_pre <- data.frame(ccol_pre_v)
 colnames(ccol_pre) <- c("ccol.pre")
 str(ccol_pre)
 
