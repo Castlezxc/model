@@ -5,9 +5,10 @@ symbol1 color=black;
 title1 'SA wheat production per year';
 
 proc gplot data=SA_DATA.wheat_prod;
-	plot mt1000*t / vaxis=axis1 haxis=axis2;
+	plot mt1000*Year / vaxis=axis1 haxis=axis2;
 run;
 
 proc arima data=sa_data.wheat_prod;
 	identify var=mt1000 nlag=6 stationarity=(adf=(0,1,2,3));
 run;
+quit;
