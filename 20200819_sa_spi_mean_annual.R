@@ -10,13 +10,17 @@ spi_annual_3            <- sapply(years, function(x) mean(spi_df[grep(x, spi_df[
 spi_annual_6            <- sapply(years, function(x) mean(spi_df[grep(x, spi_df[ , 2]), 6]))
 spi_annual_12           <- sapply(years, function(x) mean(spi_df[grep(x, spi_df[ , 2]), 7]))
 
-spi_annual_df           <- data.frame(years, spi_annual_1, spi_annual_3, spi_annual_6, spi_annual_12)
+spi_annual_df           <- data.frame(years, spi_annual_1, spi_annual_3, 
+                                      spi_annual_6, spi_annual_12)
 colnames(spi_annual_df) <- c('Years', 'spi_1', 'spi_3', 'spi_6', 'spi_12')
 write.csv(spi_annual_df, file = 'sa_spi_annual.csv')
 
 #plot(spi_df$Year, spi_df$SPI_12)
+spi_annual_df <- read.csv("sa_spi_annual.csv")
 
-plot                    <- ggplot(data = spi_annual_df, aes(Years, spi_3))
+plot                    <- ggplot(data = spi_annual_df, aes(Years, spi_1, fill = 'SPI_1')) 
+plot + geom_col() + geom_col(aes(Years, spi_3, fill = 'SPI_3')) + 
+  geom_col(aes(Years, spi_6, fill = 'SPI_6')) + geom_col(aes(Years, spi_12, fill = 'SPI_12'))
 
 ggplot(spi_df, aes(x = Year, y = SPI_12, fill = (SPI_12 > 0))) +
 geom_col() + scale_fill_manual(values = c("red", "blue"), labels = c("Negative", "Positive")) +
@@ -65,8 +69,9 @@ measure <- c('spi_1', 'spi_3', 'spi_6', 'spi_12')
 severity <- c('moderate', 'severe', 'extreme')
 period <- c('full', 'recent')
 
-plot_df <- data.frame(c(rep('spi_1', 4), rep('spi_3', 4), rep('spi_6', 4), rep('spi_12', 4)))
+plot_df <- data.frame(c(rep("1-month", 4), rep("3-month", 4), rep("6-month", 4), rep("12-month", 4)))
 names(plot_df) <- c('measure')
+plot_df$measure <- factor(plot_df$measure, levels = c("1-month", "3-month", "6-month", "12-month"))
 plot_df$period <- rep(c(rep('full', 2), rep('recent', 2)), 4)
 plot_df$severity <- rep(c('moderate', 'severe'), 8)
 plot_df$count <- c(ds_count$spi_1[1:2], ds_count_1661$spi_1[1:2], ds_count$spi_3[1:2],
@@ -78,7 +83,22 @@ moderatecount <- ggplot(plot_df[which(plot_df$severity == 'moderate'), ],
                  geom_col() #+ scale_color_manual(values =c('red4', 'black')) + scale_fill_manual()
 
 severecount <- ggplot(plot_df, aes(measure, count)) +  
-               geom_col(data=plot_df[which((plot_df$severity == 'severe') & (plot_df$period == 'full')), ], fill = 'red') + 
-               geom_col(data=plot_df[which((plot_df$severity == 'severe') & (plot_df$period == 'recent')), ], fill = 'blue') +
-               labs(fill = 'Period', y = 'Number of events in period', x = 'SPI measure') +
-               theme(legend)
+               geom_col(data=plot_df[which(plot_df$severity == 'severe'), ], 
+                        fill = period, position = 'dodge') + 
+               #geom_col(data=plot_df[which((plot_df$severity == 'severe') & 
+               #(plot_df$period == 'recent')), ], fill = 'blue') +
+               labs(title = 'Comparison of the number of drought events per SPI measure over time'
+                    ,fill = 'Period', y = 'Number of events in period', x = 'SPI measure') +
+               scale_x_discrete(labels=c("1-month", "3-month", "6-month", "12-month")) +
+               scale_fill_discrete(name = "Period", labels = c("1901 - 2020", "1961 - 2020"))
+               
+severecount
+
+ggplot(data=plot_df[which(plot_df$severity == 'severe'), ], aes(measure, count, fill = period)) +
+geom_bar(stat = 'identity', position = 'dodge') + 
+labs(title = 'Comparison of the number of severe drought events' , 
+     y = 'Number of events in period', x = 'SPI measure', 
+     labels=c("1-month", "3-month", "6-month", "12-month")) +
+scale_fill_manual(name = "Period", labels = c("1901 - 2020", "1961 - 2020"), 
+                  values =  c("red", "blue"))
+
