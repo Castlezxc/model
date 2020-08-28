@@ -3,7 +3,7 @@ library(tidyverse)
 library(ggpubr)
 library(reshape2)
 
-cpt_tmx_csv <- read.csv("CAPE_TOWN_INTNL. AIRPORT.means.tmx.csv", stringsAsFactors = FALSE)
+cpt_tmx_csv <- read.csv("CAPE_TOWN_INT_AIRPORT_means_tmx.csv", stringsAsFactors = FALSE)
 cpt_tmx_v <- cpt_tmx_csv[1:nrow(cpt_tmx_csv) - 1, 2]
 cpt_tmx <- data.frame(cpt_tmx_v)
 colnames(cpt_tmx) <- c("cpt.tmx")
@@ -44,4 +44,4 @@ cor.test(corr_clean_tmx_df$cru, corr_clean_tmx_df$site)
 ggscatter(corr_clean_tmx_df, x = "cru", y = "site", 
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "cru", ylab = "site")
+          xlab = "CRU", ylab = "Site")

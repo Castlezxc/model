@@ -3,7 +3,7 @@ library(tidyverse)
 library(ggpubr)
 library(reshape2)
 
-cpt_pre_csv <- read.csv("CAPE_TOWN_INTNL. AIRPORT.totals.pre.csv", stringsAsFactors = FALSE)
+cpt_pre_csv <- read.csv("CAPE_TOWN_INT_AIRPORT_totals_pre.csv", stringsAsFactors = FALSE)
 cpt_pre_v <- cpt_pre_csv[1:nrow(cpt_pre_csv) - 1, 2]
 cpt_pre <- data.frame(cpt_pre_v)
 colnames(cpt_pre) <- c("cpt.pre")
@@ -44,4 +44,4 @@ cor.test(corr_clean_pre_df$cru, corr_clean_pre_df$site)
 ggscatter(corr_clean_pre_df, x = "cru", y = "site", 
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "cru", ylab = "site")
+          xlab = "CRU precipitation", ylab = "Site rainfall")

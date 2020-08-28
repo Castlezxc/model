@@ -42,4 +42,4 @@ cor.test(corr_clean_pre_df$cru, corr_clean_pre_df$bloem)
 ggscatter(corr_clean_pre_df, x = "cru", y = "bloem", 
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "cru", ylab = "bloem")
+          xlab = "CRU precipitation", ylab = "Site rainfall")

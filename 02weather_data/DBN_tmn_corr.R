@@ -44,4 +44,4 @@ cor.test(corr_clean_tmn_df$cru, corr_clean_tmn_df$site)
 ggscatter(corr_clean_tmn_df, x = "cru", y = "site", 
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "cru", ylab = "site")
+          xlab = "CRU", ylab = "Site")

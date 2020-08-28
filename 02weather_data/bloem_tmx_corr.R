@@ -3,7 +3,7 @@ library(tidyverse)
 library(ggpubr)
 library(reshape2)
 
-bloem_tmx_csv <- read.csv("Bloemfonein_mean_tmx.csv", stringsAsFactors = FALSE)
+bloem_tmx_csv <- read.csv("Bloemfontein_mean_tmx.csv", stringsAsFactors = FALSE)
 bloem_tmx_v <- bloem_tmx_csv[1:259, 2]
 bloem_tmx <- data.frame(bloem_tmx_v)
 colnames(bloem_tmx) <- c("bloem.tmx")
@@ -42,4 +42,4 @@ cor.test(corr_clean_tmx_df$cru, corr_clean_tmx_df$bloem)
 ggscatter(corr_clean_tmx_df, x = "cru", y = "bloem", 
           add = "reg.line", conf.int = TRUE, 
           cor.coef = TRUE, cor.method = "pearson",
-          xlab = "cru", ylab = "bloem")
+          xlab = "CRU", ylab = "Site")
